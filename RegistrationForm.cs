@@ -21,5 +21,14 @@ namespace HomeKitchenAssistant
         {
             this.Close();
         }
+
+        private void registerButton_Click(object sender, EventArgs e)
+        {
+            string userName = nameTextBox.Text;
+            string userLogin = loginTextBox.Text;
+            string userPassword = passwordTextBox.Text;
+
+
+        }
     }
 }

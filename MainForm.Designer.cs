@@ -55,6 +55,7 @@ namespace HomeKitchenAssistant
             this.MinimumSize = new System.Drawing.Size(750, 450);
             this.Name = "MainForm";
             this.Text = "Домашний кухонный помощник";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }

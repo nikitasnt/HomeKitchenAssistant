@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace HomeKitchenAssistant
 {
     public partial class MainForm : Form
     {
+        private SqlConnection sqlConnection;
+
         public MainForm()
         {
             InitializeComponent();
@@ -21,7 +24,12 @@ namespace HomeKitchenAssistant
         {
             var loginChoiseForm = new LoginChoiseForm();
             loginChoiseForm.Show();
-            //this.Enabled = false;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            string connectionString =
+                @"Data Source=DESKTOP-RLVLN9U;Initial Catalog=HomeKitchenAssistDb;Integrated Security=True";
         }
     }
 }
