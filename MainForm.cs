@@ -40,7 +40,7 @@ namespace HomeKitchenAssistant
         private void loginButton_Click(object sender, EventArgs e)
         {
             var loginChoiseForm = new LoginChoiseForm(this);
-            loginChoiseForm.Show();
+            loginChoiseForm.ShowDialog();
         }
     }
 }

@@ -49,10 +49,9 @@ namespace HomeKitchenAssistant
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 411);
             this.Controls.Add(this.loginChoiseButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(750, 450);
-            this.MinimumSize = new System.Drawing.Size(750, 450);
             this.Name = "MainForm";
             this.Text = "Домашний кухонный помощник";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);

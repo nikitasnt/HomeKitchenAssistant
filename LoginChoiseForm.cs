@@ -24,7 +24,7 @@ namespace HomeKitchenAssistant
         private void registrationButton_Click(object sender, EventArgs e)
         {
             var registrationForm = new RegistrationForm(mainForm, this);
-            registrationForm.Show();
+            registrationForm.ShowDialog();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

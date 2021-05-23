@@ -72,7 +72,9 @@ namespace HomeKitchenAssistant
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.registrationButton);
             this.Controls.Add(this.loginButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "LoginChoiseForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Войти или зарегистрироваться";
             this.ResumeLayout(false);
 
