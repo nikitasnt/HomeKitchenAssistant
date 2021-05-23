@@ -31,6 +31,7 @@ namespace HomeKitchenAssistant
         {
             this.loginButton = new System.Windows.Forms.Button();
             this.registrationButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // loginButton
@@ -50,17 +51,27 @@ namespace HomeKitchenAssistant
             this.registrationButton.TabIndex = 1;
             this.registrationButton.Text = "Создать новый аккаунт";
             this.registrationButton.UseVisualStyleBackColor = true;
+            this.registrationButton.Click += new System.EventHandler(this.registrationButton_Click);
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Location = new System.Drawing.Point(197, 141);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 2;
+            this.cancelButton.Text = "Отмена";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // LoginChoiseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 141);
+            this.ClientSize = new System.Drawing.Size(284, 176);
             this.ControlBox = false;
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.registrationButton);
             this.Controls.Add(this.loginButton);
-            this.MaximumSize = new System.Drawing.Size(300, 180);
-            this.MinimumSize = new System.Drawing.Size(300, 180);
             this.Name = "LoginChoiseForm";
             this.Text = "Войти или зарегистрироваться";
             this.ResumeLayout(false);
@@ -71,5 +82,6 @@ namespace HomeKitchenAssistant
 
         private System.Windows.Forms.Button loginButton;
         private System.Windows.Forms.Button registrationButton;
+        private System.Windows.Forms.Button cancelButton;
     }
 }

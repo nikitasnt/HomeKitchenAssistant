@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace HomeKitchenAssistant
 {
-    public partial class LoginChoiseForm : Form
+    public partial class RegistrationForm : Form
     {
-        public LoginChoiseForm()
+        public RegistrationForm()
         {
             InitializeComponent();
-        }
-
-        private void registrationButton_Click(object sender, EventArgs e)
-        {
-            var registrationForm = new RegistrationForm();
-            registrationForm.Show();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
