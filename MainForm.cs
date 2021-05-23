@@ -14,7 +14,7 @@ namespace HomeKitchenAssistant
 {
     public partial class MainForm : Form
     {
-        private SqlConnection sqlConnection;
+        internal SqlConnection sqlConnection;
 
         public MainForm()
         {
@@ -39,7 +39,7 @@ namespace HomeKitchenAssistant
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            var loginChoiseForm = new LoginChoiseForm();
+            var loginChoiseForm = new LoginChoiseForm(this);
             loginChoiseForm.Show();
         }
     }
