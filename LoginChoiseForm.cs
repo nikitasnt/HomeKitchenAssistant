@@ -10,18 +10,11 @@ using System.Windows.Forms;
 
 namespace HomeKitchenAssistant
 {
-    public partial class MainForm : Form
+    public partial class LoginChoiseForm : Form
     {
-        public MainForm()
+        public LoginChoiseForm()
         {
             InitializeComponent();
-        }
-
-        private void loginButton_Click(object sender, EventArgs e)
-        {
-            var loginChoiseForm = new LoginChoiseForm();
-            loginChoiseForm.Show();
-            //this.Enabled = false;
         }
     }
 }

@@ -30,13 +30,25 @@ namespace HomeKitchenAssistant
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.loginChoiseButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // loginChoiseButton
+            // 
+            this.loginChoiseButton.Location = new System.Drawing.Point(609, 369);
+            this.loginChoiseButton.Name = "loginChoiseButton";
+            this.loginChoiseButton.Size = new System.Drawing.Size(113, 30);
+            this.loginChoiseButton.TabIndex = 0;
+            this.loginChoiseButton.Text = "Войти в аккаунт";
+            this.loginChoiseButton.UseVisualStyleBackColor = true;
+            this.loginChoiseButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 411);
+            this.Controls.Add(this.loginChoiseButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(750, 450);
@@ -48,6 +60,8 @@ namespace HomeKitchenAssistant
         }
 
         #endregion
+
+        private System.Windows.Forms.Button loginChoiseButton;
     }
 }
 
