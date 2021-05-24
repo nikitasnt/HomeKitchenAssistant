@@ -54,6 +54,10 @@ namespace HomeKitchenAssistant
                     MessageBox.Show("Вы успешно зарегистрированы!");
                     this.Close();
                     loginChoiseForm.Close();
+
+                    mainForm.currentUserLogin = userLogin;
+                    mainForm.currentUserName = userName;
+                    mainForm.currentUserLabel.Text = $"{userLogin} ({userName})";
                 }
                 else
                 {

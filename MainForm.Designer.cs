@@ -31,6 +31,8 @@ namespace HomeKitchenAssistant
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.loginChoiseButton = new System.Windows.Forms.Button();
+            this.currentUserHeaderLabel = new System.Windows.Forms.Label();
+            this.currentUserLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // loginChoiseButton
@@ -43,11 +45,32 @@ namespace HomeKitchenAssistant
             this.loginChoiseButton.UseVisualStyleBackColor = true;
             this.loginChoiseButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
+            // currentUserHeaderLabel
+            // 
+            this.currentUserHeaderLabel.AutoSize = true;
+            this.currentUserHeaderLabel.Location = new System.Drawing.Point(12, 369);
+            this.currentUserHeaderLabel.Name = "currentUserHeaderLabel";
+            this.currentUserHeaderLabel.Size = new System.Drawing.Size(129, 13);
+            this.currentUserHeaderLabel.TabIndex = 1;
+            this.currentUserHeaderLabel.Text = "Текущий пользователь:";
+            // 
+            // currentUserLabel
+            // 
+            this.currentUserLabel.AutoSize = true;
+            this.currentUserLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.currentUserLabel.Location = new System.Drawing.Point(12, 389);
+            this.currentUserLabel.Name = "currentUserLabel";
+            this.currentUserLabel.Size = new System.Drawing.Size(11, 13);
+            this.currentUserLabel.TabIndex = 2;
+            this.currentUserLabel.Text = "-";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 411);
+            this.Controls.Add(this.currentUserLabel);
+            this.Controls.Add(this.currentUserHeaderLabel);
             this.Controls.Add(this.loginChoiseButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -57,12 +80,15 @@ namespace HomeKitchenAssistant
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button loginChoiseButton;
+        private System.Windows.Forms.Label currentUserHeaderLabel;
+        internal System.Windows.Forms.Label currentUserLabel;
     }
 }
 

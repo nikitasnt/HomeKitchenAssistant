@@ -16,6 +16,9 @@ namespace HomeKitchenAssistant
     {
         internal SqlConnection sqlConnection;
 
+        internal String currentUserLogin;
+        internal String currentUserName;
+
         public MainForm()
         {
             InitializeComponent();
