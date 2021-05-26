@@ -31,5 +31,11 @@ namespace HomeKitchenAssistant
         {
             this.Close();
         }
+
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+            var loginForm = new LoginForm(mainForm, this);
+            loginForm.ShowDialog();
+        }
     }
 }

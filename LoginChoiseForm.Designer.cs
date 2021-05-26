@@ -42,6 +42,7 @@ namespace HomeKitchenAssistant
             this.loginButton.TabIndex = 0;
             this.loginButton.Text = "Войти в существующий аккаунт";
             this.loginButton.UseVisualStyleBackColor = true;
+            this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
             // registrationButton
             // 
