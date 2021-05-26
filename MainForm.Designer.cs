@@ -85,10 +85,9 @@ namespace HomeKitchenAssistant
         }
 
         #endregion
-
-        private System.Windows.Forms.Button loginChoiseButton;
         private System.Windows.Forms.Label currentUserHeaderLabel;
         internal System.Windows.Forms.Label currentUserLabel;
+        internal System.Windows.Forms.Button loginChoiseButton;
     }
 }
 

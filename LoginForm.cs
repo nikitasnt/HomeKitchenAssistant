@@ -58,6 +58,7 @@ namespace HomeKitchenAssistant
                         mainForm.currentUserLogin = userLogin;
                         mainForm.currentUserName = reader.GetString(0);
                         mainForm.currentUserLabel.Text = $"{userLogin} ({reader.GetString(0)})";
+                        mainForm.loginChoiseButton.Enabled = false;
                     }
                     else
                     {
