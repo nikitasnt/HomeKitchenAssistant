@@ -27,7 +27,7 @@ namespace HomeKitchenAssistant
         private void MainForm_Load(object sender, EventArgs e)
         {
             sqlConnection = new SqlConnection(ConfigurationManager
-                .ConnectionStrings["HomeKitchenAssistDb"].ConnectionString);
+                .ConnectionStrings["HomeKitchenAssistantDb"].ConnectionString);
 
             sqlConnection.Open();
         }

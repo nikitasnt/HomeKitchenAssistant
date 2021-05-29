@@ -28,7 +28,7 @@ namespace HomeKitchenAssistant
             string userLogin = loginTextBox.Text;
             string userPassword = passwordTextBox.Text;
 
-            string sqlExpression = $"SELECT Name, Password FROM Users WHERE Login = '{userLogin}'";
+            string sqlExpression = $"SELECT UserName, UserPassword FROM Users WHERE UserLogin = '{userLogin}'";
             SqlCommand sqlCommand = new SqlCommand(sqlExpression, mainForm.sqlConnection);
 
             string password;
@@ -36,13 +36,7 @@ namespace HomeKitchenAssistant
             try
             {
                 reader = sqlCommand.ExecuteReader();
-            }
-            catch (SqlException sqlException)
-            {
-                Console.WriteLine(sqlException);
-            }
-            finally
-            {
+
                 if (reader.HasRows)
                 {
                     reader.Read();
@@ -69,7 +63,13 @@ namespace HomeKitchenAssistant
                 {
                     MessageBox.Show("Введены некорректные данные, либо неверные логин или пароль");
                 }
-
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+            finally
+            {
                 if (reader != null)
                 {
                     reader.Close();
