@@ -41,8 +41,13 @@ namespace HomeKitchenAssistant
             this.productListLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.productNameLabel = new System.Windows.Forms.Label();
+            this.productNameTextBox = new System.Windows.Forms.TextBox();
+            this.productAmountLabel = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // loginChoiseButton
@@ -70,9 +75,8 @@ namespace HomeKitchenAssistant
             this.currentUserLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.currentUserLabel.Location = new System.Drawing.Point(12, 389);
             this.currentUserLabel.Name = "currentUserLabel";
-            this.currentUserLabel.Size = new System.Drawing.Size(11, 13);
+            this.currentUserLabel.Size = new System.Drawing.Size(0, 13);
             this.currentUserLabel.TabIndex = 2;
-            this.currentUserLabel.Text = "-";
             // 
             // tabControl1
             // 
@@ -89,6 +93,10 @@ namespace HomeKitchenAssistant
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.numericUpDown1);
+            this.tabPage1.Controls.Add(this.productAmountLabel);
+            this.tabPage1.Controls.Add(this.productNameTextBox);
+            this.tabPage1.Controls.Add(this.productNameLabel);
             this.tabPage1.Controls.Add(this.deleteProductButton);
             this.tabPage1.Controls.Add(this.addProductButton);
             this.tabPage1.Controls.Add(this.listBox1);
@@ -103,18 +111,18 @@ namespace HomeKitchenAssistant
             // 
             // deleteProductButton
             // 
-            this.deleteProductButton.Location = new System.Drawing.Point(600, 295);
+            this.deleteProductButton.Location = new System.Drawing.Point(605, 132);
             this.deleteProductButton.Name = "deleteProductButton";
-            this.deleteProductButton.Size = new System.Drawing.Size(120, 36);
+            this.deleteProductButton.Size = new System.Drawing.Size(115, 33);
             this.deleteProductButton.TabIndex = 3;
             this.deleteProductButton.Text = "Удалить";
             this.deleteProductButton.UseVisualStyleBackColor = true;
             // 
             // addProductButton
             // 
-            this.addProductButton.Location = new System.Drawing.Point(474, 295);
+            this.addProductButton.Location = new System.Drawing.Point(430, 121);
             this.addProductButton.Name = "addProductButton";
-            this.addProductButton.Size = new System.Drawing.Size(120, 36);
+            this.addProductButton.Size = new System.Drawing.Size(169, 44);
             this.addProductButton.TabIndex = 2;
             this.addProductButton.Text = "Добавить";
             this.addProductButton.UseVisualStyleBackColor = true;
@@ -125,7 +133,7 @@ namespace HomeKitchenAssistant
             this.listBox1.Location = new System.Drawing.Point(6, 19);
             this.listBox1.MultiColumn = true;
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(399, 316);
+            this.listBox1.Size = new System.Drawing.Size(418, 316);
             this.listBox1.TabIndex = 1;
             // 
             // productListLabel
@@ -156,6 +164,55 @@ namespace HomeKitchenAssistant
             this.tabPage3.Text = "Семья";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // productNameLabel
+            // 
+            this.productNameLabel.AutoSize = true;
+            this.productNameLabel.Location = new System.Drawing.Point(430, 3);
+            this.productNameLabel.Name = "productNameLabel";
+            this.productNameLabel.Size = new System.Drawing.Size(106, 13);
+            this.productNameLabel.TabIndex = 5;
+            this.productNameLabel.Text = "Название продукта";
+            // 
+            // productNameTextBox
+            // 
+            this.productNameTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.productNameTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.productNameTextBox.Location = new System.Drawing.Point(430, 19);
+            this.productNameTextBox.Name = "productNameTextBox";
+            this.productNameTextBox.Size = new System.Drawing.Size(288, 20);
+            this.productNameTextBox.TabIndex = 6;
+            // 
+            // productAmountLabel
+            // 
+            this.productAmountLabel.AutoSize = true;
+            this.productAmountLabel.Location = new System.Drawing.Point(430, 65);
+            this.productAmountLabel.Name = "productAmountLabel";
+            this.productAmountLabel.Size = new System.Drawing.Size(123, 13);
+            this.productAmountLabel.TabIndex = 7;
+            this.productAmountLabel.Text = "Количество (г/мл/шт.):";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(430, 81);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(169, 20);
+            this.numericUpDown1.TabIndex = 8;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -175,6 +232,7 @@ namespace HomeKitchenAssistant
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -192,6 +250,10 @@ namespace HomeKitchenAssistant
         private System.Windows.Forms.Label productListLabel;
         private System.Windows.Forms.Button deleteProductButton;
         private System.Windows.Forms.Button addProductButton;
+        private System.Windows.Forms.Label productNameLabel;
+        private System.Windows.Forms.TextBox productNameTextBox;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label productAmountLabel;
     }
 }
 

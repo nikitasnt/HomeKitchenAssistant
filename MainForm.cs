@@ -25,6 +25,7 @@ namespace HomeKitchenAssistant
             InitializeComponent();
         }
 
+        // Full update information in tabPages in tabControl
         internal void UpdateTabControl()
         {
             tabControl1.Enabled = true;
@@ -32,10 +33,46 @@ namespace HomeKitchenAssistant
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // Connection to DB
+
             sqlConnection = new SqlConnection(ConfigurationManager
                 .ConnectionStrings["HomeKitchenAssistantDb"].ConnectionString);
 
             sqlConnection.Open();
+
+            // Getting list of all product names from DB for domainUpDown
+
+            var allProductNamesFromDb = new AutoCompleteStringCollection();
+
+            string sqlExpression = $"SELECT ProductName FROM Products";
+            SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+
+            SqlDataReader reader = null;
+            try
+            {
+                reader = sqlCommand.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        allProductNamesFromDb.Add(reader.GetString(0));
+                    }
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+            }
+
+            productNameTextBox.AutoCompleteCustomSource = allProductNamesFromDb;
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
