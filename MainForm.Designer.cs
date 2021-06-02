@@ -33,11 +33,21 @@ namespace HomeKitchenAssistant
             this.loginChoiseButton = new System.Windows.Forms.Button();
             this.currentUserHeaderLabel = new System.Windows.Forms.Label();
             this.currentUserLabel = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.deleteProductButton = new System.Windows.Forms.Button();
+            this.addProductButton = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.productListLabel = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // loginChoiseButton
             // 
-            this.loginChoiseButton.Location = new System.Drawing.Point(609, 369);
+            this.loginChoiseButton.Location = new System.Drawing.Point(609, 372);
             this.loginChoiseButton.Name = "loginChoiseButton";
             this.loginChoiseButton.Size = new System.Drawing.Size(113, 30);
             this.loginChoiseButton.TabIndex = 0;
@@ -64,11 +74,94 @@ namespace HomeKitchenAssistant
             this.currentUserLabel.TabIndex = 2;
             this.currentUserLabel.Text = "-";
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tabControl1.Enabled = false;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(734, 363);
+            this.tabControl1.TabIndex = 3;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.deleteProductButton);
+            this.tabPage1.Controls.Add(this.addProductButton);
+            this.tabPage1.Controls.Add(this.listBox1);
+            this.tabPage1.Controls.Add(this.productListLabel);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(726, 337);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Продукты";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // deleteProductButton
+            // 
+            this.deleteProductButton.Location = new System.Drawing.Point(600, 295);
+            this.deleteProductButton.Name = "deleteProductButton";
+            this.deleteProductButton.Size = new System.Drawing.Size(120, 36);
+            this.deleteProductButton.TabIndex = 3;
+            this.deleteProductButton.Text = "Удалить";
+            this.deleteProductButton.UseVisualStyleBackColor = true;
+            // 
+            // addProductButton
+            // 
+            this.addProductButton.Location = new System.Drawing.Point(474, 295);
+            this.addProductButton.Name = "addProductButton";
+            this.addProductButton.Size = new System.Drawing.Size(120, 36);
+            this.addProductButton.TabIndex = 2;
+            this.addProductButton.Text = "Добавить";
+            this.addProductButton.UseVisualStyleBackColor = true;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(6, 19);
+            this.listBox1.MultiColumn = true;
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(399, 316);
+            this.listBox1.TabIndex = 1;
+            // 
+            // productListLabel
+            // 
+            this.productListLabel.AutoSize = true;
+            this.productListLabel.Location = new System.Drawing.Point(6, 3);
+            this.productListLabel.Name = "productListLabel";
+            this.productListLabel.Size = new System.Drawing.Size(165, 13);
+            this.productListLabel.TabIndex = 0;
+            this.productListLabel.Text = "Список имеющихся продуктов:";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(726, 337);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Рецепты";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(726, 337);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Семья";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 411);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.currentUserLabel);
             this.Controls.Add(this.currentUserHeaderLabel);
             this.Controls.Add(this.loginChoiseButton);
@@ -79,6 +172,9 @@ namespace HomeKitchenAssistant
             this.Text = "Домашний кухонный помощник";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -88,6 +184,14 @@ namespace HomeKitchenAssistant
         private System.Windows.Forms.Label currentUserHeaderLabel;
         internal System.Windows.Forms.Label currentUserLabel;
         internal System.Windows.Forms.Button loginChoiseButton;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label productListLabel;
+        private System.Windows.Forms.Button deleteProductButton;
+        private System.Windows.Forms.Button addProductButton;
     }
 }
 

@@ -16,12 +16,18 @@ namespace HomeKitchenAssistant
     {
         internal SqlConnection sqlConnection;
 
-        internal String currentUserLogin;
-        internal String currentUserName;
+        internal string currentUserLogin;
+        internal string currentUserName;
+        //internal bool isUserExists;
 
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        internal void UpdateTabControl()
+        {
+            tabControl1.Enabled = true;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
