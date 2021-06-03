@@ -51,7 +51,7 @@ namespace HomeKitchenAssistant
             {
                 if (isUserWasAdded)
                 {
-                    MessageBox.Show("Вы успешно зарегистрированы!");
+                    //MessageBox.Show("Вы успешно зарегистрированы!");
                     this.Close();
                     loginChoiseForm.Close();
 

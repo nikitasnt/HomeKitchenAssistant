@@ -25,10 +25,56 @@ namespace HomeKitchenAssistant
             InitializeComponent();
         }
 
+        // Update information in Product page
+        private void UpdateProductPage()
+        {
+            productsListBox.Items.Clear();
+
+            var userProducts = new List<string>();
+
+            string sqlExpression = $"SELECT ProductName FROM Products " +
+                                   $"WHERE ProductId IN " +
+                                   $"(" +
+                                   $"SELECT ProductId FROM UsersHaveProducts " +
+                                   $"WHERE UserId = (SELECT UserId FROM Users WHERE UserLogin = '{currentUserLogin}')" +
+                                   $")";
+            SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+
+            SqlDataReader reader = null;
+            try
+            {
+                reader = sqlCommand.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        userProducts.Add(reader.GetString(0));
+                    }
+                }
+
+                //userProducts.Sort();
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+            finally
+            {
+                if (reader != null && !reader.IsClosed)
+                {
+                    reader.Close();
+                }
+            }
+
+            productsListBox.Items.AddRange(userProducts.ToArray());
+        }
+
         // Full update information in tabPages in tabControl
         internal void UpdateTabControl()
         {
             tabControl1.Enabled = true;
+            UpdateProductPage();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -66,7 +112,7 @@ namespace HomeKitchenAssistant
             }
             finally
             {
-                if (reader != null)
+                if (reader != null && !reader.IsClosed)
                 {
                     reader.Close();
                 }

@@ -45,7 +45,7 @@ namespace HomeKitchenAssistant
 
                     if (password == userPassword)
                     {
-                        MessageBox.Show("Вы успешно вошли в аккаунт!");
+                        //MessageBox.Show("Вы успешно вошли в аккаунт!");
                         this.Close();
                         loginChoiseForm.Close();
 
@@ -53,7 +53,6 @@ namespace HomeKitchenAssistant
                         mainForm.currentUserName = reader.GetString(0);
                         mainForm.currentUserLabel.Text = $"{userLogin} ({reader.GetString(0)})";
                         mainForm.loginChoiseButton.Enabled = false;
-                        mainForm.UpdateTabControl();
                     }
                     else
                     {
@@ -71,11 +70,12 @@ namespace HomeKitchenAssistant
             }
             finally
             {
-                if (reader != null)
+                if (reader != null && !reader.IsClosed)
                 {
                     reader.Close();
                 }
             }
+            mainForm.UpdateTabControl();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
