@@ -193,9 +193,38 @@ namespace HomeKitchenAssistant
                 catch (SqlException sqlException)
                 {
                     Console.WriteLine(sqlException);
-                    MessageBox.Show("Неправильное название продукта");
+                    MessageBox.Show("Несуществующее название продукта");
                 }
                 UpdateProductPage();
+            }
+        }
+
+        private void deleteProductButton_Click(object sender, EventArgs e)
+        {
+            string deletedProductName = productNameTextBox.Text;
+
+            // If user have deleted product
+            if (productsListBox.Items.Contains(deletedProductName))
+            {
+                string sqlExpression = $"UPDATE UsersHaveProducts " +
+                                       $"SET Amount = Amount - {Convert.ToInt32(amountNumericUpDown.Text)} " +
+                                       $"WHERE UserId = {userId} AND " +
+                                       $"ProductId = (SELECT ProductId FROM Products " +
+                                       $"WHERE ProductName = '{deletedProductName}')";
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (SqlException sqlException)
+                {
+                    Console.WriteLine(sqlException);
+                }
+                UpdateProductPage();
+            }
+            else
+            {
+                MessageBox.Show("У вас нет такого продукта");
             }
         }
     }

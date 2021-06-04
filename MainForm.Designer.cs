@@ -154,6 +154,7 @@ namespace HomeKitchenAssistant
             this.deleteProductButton.TabIndex = 3;
             this.deleteProductButton.Text = "Удалить";
             this.deleteProductButton.UseVisualStyleBackColor = true;
+            this.deleteProductButton.Click += new System.EventHandler(this.deleteProductButton_Click);
             // 
             // addProductButton
             // 
