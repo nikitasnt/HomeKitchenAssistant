@@ -42,13 +42,7 @@ namespace HomeKitchenAssistant
             try
             {
                 isUserWasAdded = Convert.ToBoolean(sqlCommand.ExecuteNonQuery());
-            }
-            catch (SqlException sqlException)
-            {
-                Console.WriteLine(sqlException);
-            }
-            finally
-            {
+                
                 if (isUserWasAdded)
                 {
                     //MessageBox.Show("Вы успешно зарегистрированы!");
@@ -65,6 +59,10 @@ namespace HomeKitchenAssistant
                 {
                     MessageBox.Show("Введены некорректные данные, либо пользователь с таким логином уже существует");
                 }
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
             }
         }
     }

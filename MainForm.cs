@@ -18,6 +18,8 @@ namespace HomeKitchenAssistant
 
         internal string currentUserLogin;
         internal string currentUserName;
+
+        private int userId;
         //internal bool isUserExists;
 
         public MainForm()
@@ -36,7 +38,7 @@ namespace HomeKitchenAssistant
                                    $"WHERE ProductId IN " +
                                    $"(" +
                                    $"SELECT ProductId FROM UsersHaveProducts " +
-                                   $"WHERE UserId = (SELECT UserId FROM Users WHERE UserLogin = '{currentUserLogin}')" +
+                                   $"WHERE UserId = {userId}" +
                                    $")";
             SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
 
@@ -73,6 +75,19 @@ namespace HomeKitchenAssistant
         // Full update information in tabPages in tabControl
         internal void UpdateTabControl()
         {
+            // Set user ID
+            string sqlExpression = $"SELECT UserId FROM Users WHERE UserLogin = '{currentUserLogin}'";
+            SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+            try
+            {
+                userId = Convert.ToInt32(sqlCommand.ExecuteScalar());
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+            
+            // Update all pages
             tabControl1.Enabled = true;
             UpdateProductPage();
         }
@@ -133,6 +148,55 @@ namespace HomeKitchenAssistant
         {
             var loginChoiseForm = new LoginChoiseForm(this);
             loginChoiseForm.ShowDialog();
+        }
+
+        private void productsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            productNameTextBox.Text = productsListBox.SelectedItem.ToString();
+        }
+
+        private void addProductButton_Click(object sender, EventArgs e)
+        {
+            string addedProductName = productNameTextBox.Text;
+            
+            // If user have added product
+            if (productsListBox.Items.Contains(addedProductName))
+            {
+                string sqlExpression = $"UPDATE UsersHaveProducts " +
+                                       $"SET Amount = Amount + {Convert.ToInt32(amountNumericUpDown.Text)} " +
+                                       $"WHERE UserId = {userId} AND " +
+                                       $"ProductId = (SELECT ProductId FROM Products " +
+                                       $"WHERE ProductName = '{addedProductName}')";
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (SqlException sqlException)
+                {
+                    Console.WriteLine(sqlException);
+                }
+                UpdateProductPage();
+            }
+            else
+            {
+                string sqlExpression = $"INSERT INTO UsersHaveProducts(UserId, ProductId, Amount) VALUES " +
+                                       $"({userId}, " +
+                                       $"(SELECT ProductId FROM Products " +
+                                       $"WHERE ProductName = '{addedProductName}'), " +
+                                       $"{Convert.ToInt32(amountNumericUpDown.Text)})";
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (SqlException sqlException)
+                {
+                    Console.WriteLine(sqlException);
+                    MessageBox.Show("Неправильное название продукта");
+                }
+                UpdateProductPage();
+            }
         }
     }
 }
