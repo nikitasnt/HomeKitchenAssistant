@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -84,7 +85,11 @@ namespace HomeKitchenAssistant
         // Update information in Recipe page
         private void UpdateRecipePage()
         {
+            cookButton.Enabled = false;
+            
             recipesListBox.Items.Clear();
+            recipeDescriptionTextBox.Clear();
+            productsInRecipeListBox.Items.Clear();
 
             var userRecipes = new List<string>();
             
@@ -355,7 +360,34 @@ namespace HomeKitchenAssistant
                     }
                 }
                 productsInRecipeListBox.Items.AddRange(recipeProducts.ToArray());
+                
+                // Enable cook button
+                cookButton.Enabled = true;
             }
+        }
+
+        private void cookButton_Click(object sender, EventArgs e)
+        {
+            string sqlExpression = $"UPDATE UsersHaveProducts " +
+                                   $"SET Amount = Amount - " +
+                                   $"( " +
+                                   $"SELECT Amount FROM RecipesIncludeProducts " +
+                                   $"WHERE RecipeId = " +
+                                   $"(SELECT RecipeId FROM Recipes " +
+                                   $"WHERE RecipeName = '{recipesListBox.SelectedItem}') " +
+                                   $"AND RecipesIncludeProducts.ProductId = UsersHaveProducts.ProductId " +
+                                   $") " +
+                                   $"WHERE UserId = {userId}";
+            SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+            UpdateTabControl();
         }
     }
 }
