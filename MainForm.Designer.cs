@@ -45,9 +45,12 @@ namespace HomeKitchenAssistant
             this.productListLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.recipesListBox = new System.Windows.Forms.ListBox();
+            this.recipeListLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) (this.amountNumericUpDown)).BeginInit();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // loginChoiseButton
@@ -187,6 +190,8 @@ namespace HomeKitchenAssistant
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.recipeListLabel);
+            this.tabPage2.Controls.Add(this.recipesListBox);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -203,6 +208,22 @@ namespace HomeKitchenAssistant
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Семья";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // recipesListBox
+            // 
+            this.recipesListBox.FormattingEnabled = true;
+            this.recipesListBox.Location = new System.Drawing.Point(6, 18);
+            this.recipesListBox.Name = "recipesListBox";
+            this.recipesListBox.Size = new System.Drawing.Size(418, 316);
+            this.recipesListBox.TabIndex = 0;
+            // 
+            // recipeListLabel
+            // 
+            this.recipeListLabel.Location = new System.Drawing.Point(6, 3);
+            this.recipeListLabel.Name = "recipeListLabel";
+            this.recipeListLabel.Size = new System.Drawing.Size(155, 13);
+            this.recipeListLabel.TabIndex = 1;
+            this.recipeListLabel.Text = "Список доступных рецептов:";
             // 
             // MainForm
             // 
@@ -224,9 +245,13 @@ namespace HomeKitchenAssistant
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize) (this.amountNumericUpDown)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.ListBox recipesListBox;
+        private System.Windows.Forms.Label recipeListLabel;
 
         private System.Windows.Forms.NumericUpDown amountNumericUpDown;
 

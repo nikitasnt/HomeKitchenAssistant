@@ -20,26 +20,35 @@ namespace HomeKitchenAssistant
         internal string currentUserName;
 
         private int userId;
+
+        private List<string> userProducts;
         //internal bool isUserExists;
 
         public MainForm()
         {
             InitializeComponent();
+            userProducts = new List<string>();
         }
 
         // Update information in Product page
         private void UpdateProductPage()
         {
+            this.userProducts.Clear();
             productsListBox.Items.Clear();
 
             var userProducts = new List<string>();
 
-            string sqlExpression = $"SELECT ProductName FROM Products " +
-                                   $"WHERE ProductId IN " +
-                                   $"(" +
-                                   $"SELECT ProductId FROM UsersHaveProducts " +
-                                   $"WHERE UserId = {userId}" +
-                                   $")";
+            // string sqlExpression = $"SELECT ProductName FROM Products " +
+            //                        $"WHERE ProductId IN " +
+            //                        $"(" +
+            //                        $"SELECT ProductId FROM UsersHaveProducts " +
+            //                        $"WHERE UserId = {userId}" +
+            //                        $")";
+            string sqlExpression = $"SELECT Products.ProductName, UsersHaveProducts.Amount, Units.UnitName " +
+                                   $"FROM Products, UsersHaveProducts, Units " +
+                                   $"WHERE UsersHaveProducts.ProductId = Products.ProductId " +
+                                   $"AND Products.UnitId = Units.UnitId " +
+                                   $"AND UserId = {userId}";
             SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
 
             SqlDataReader reader = null;
@@ -51,7 +60,9 @@ namespace HomeKitchenAssistant
                 {
                     while (reader.Read())
                     {
-                        userProducts.Add(reader.GetString(0));
+                        this.userProducts.Add(reader.GetString(0));
+                        userProducts.Add($"{reader.GetString(0)} - " +
+                                         $"{Convert.ToString(reader.GetInt32(1))} {reader.GetString(2)};");
                     }
                 }
 
@@ -70,6 +81,12 @@ namespace HomeKitchenAssistant
             }
 
             productsListBox.Items.AddRange(userProducts.ToArray());
+        }
+        
+        // Update information in Recipe page
+        private void UpdateRecipePage()
+        {
+            //string sqlExpression = $""
         }
 
         // Full update information in tabPages in tabControl
@@ -152,7 +169,10 @@ namespace HomeKitchenAssistant
 
         private void productsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            productNameTextBox.Text = productsListBox.SelectedItem.ToString();
+            string productName = productsListBox.SelectedItem.ToString();
+            
+            // Gey only name without amount
+            productNameTextBox.Text = productName.Substring(0, productName.IndexOf('-') - 1);
         }
 
         private void addProductButton_Click(object sender, EventArgs e)
@@ -160,7 +180,7 @@ namespace HomeKitchenAssistant
             string addedProductName = productNameTextBox.Text;
             
             // If user have added product
-            if (productsListBox.Items.Contains(addedProductName))
+            if (userProducts.Contains(addedProductName))
             {
                 string sqlExpression = $"UPDATE UsersHaveProducts " +
                                        $"SET Amount = Amount + {Convert.ToInt32(amountNumericUpDown.Text)} " +
@@ -188,7 +208,7 @@ namespace HomeKitchenAssistant
                 SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
                 try
                 {
-                    sqlCommand.ExecuteNonQuery();
+                    Console.WriteLine(sqlCommand.ExecuteNonQuery());
                 }
                 catch (SqlException sqlException)
                 {
@@ -204,7 +224,7 @@ namespace HomeKitchenAssistant
             string deletedProductName = productNameTextBox.Text;
 
             // If user have deleted product
-            if (productsListBox.Items.Contains(deletedProductName))
+            if (userProducts.Contains(deletedProductName))
             {
                 string sqlExpression = $"UPDATE UsersHaveProducts " +
                                        $"SET Amount = Amount - {Convert.ToInt32(amountNumericUpDown.Text)} " +
