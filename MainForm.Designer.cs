@@ -44,9 +44,9 @@ namespace HomeKitchenAssistant
             this.productsListBox = new System.Windows.Forms.ListBox();
             this.productListLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.recipesListBox = new System.Windows.Forms.ListBox();
             this.recipeListLabel = new System.Windows.Forms.Label();
+            this.recipesListBox = new System.Windows.Forms.ListBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) (this.amountNumericUpDown)).BeginInit();
@@ -200,6 +200,23 @@ namespace HomeKitchenAssistant
             this.tabPage2.Text = "Рецепты";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // recipeListLabel
+            // 
+            this.recipeListLabel.Location = new System.Drawing.Point(6, 3);
+            this.recipeListLabel.Name = "recipeListLabel";
+            this.recipeListLabel.Size = new System.Drawing.Size(155, 13);
+            this.recipeListLabel.TabIndex = 1;
+            this.recipeListLabel.Text = "Список доступных рецептов:";
+            // 
+            // recipesListBox
+            // 
+            this.recipesListBox.FormattingEnabled = true;
+            this.recipesListBox.Location = new System.Drawing.Point(6, 18);
+            this.recipesListBox.Name = "recipesListBox";
+            this.recipesListBox.Size = new System.Drawing.Size(418, 316);
+            this.recipesListBox.Sorted = true;
+            this.recipesListBox.TabIndex = 0;
+            // 
             // tabPage3
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -208,22 +225,6 @@ namespace HomeKitchenAssistant
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Семья";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // recipesListBox
-            // 
-            this.recipesListBox.FormattingEnabled = true;
-            this.recipesListBox.Location = new System.Drawing.Point(6, 18);
-            this.recipesListBox.Name = "recipesListBox";
-            this.recipesListBox.Size = new System.Drawing.Size(418, 316);
-            this.recipesListBox.TabIndex = 0;
-            // 
-            // recipeListLabel
-            // 
-            this.recipeListLabel.Location = new System.Drawing.Point(6, 3);
-            this.recipeListLabel.Name = "recipeListLabel";
-            this.recipeListLabel.Size = new System.Drawing.Size(155, 13);
-            this.recipeListLabel.TabIndex = 1;
-            this.recipeListLabel.Text = "Список доступных рецептов:";
             // 
             // MainForm
             // 
