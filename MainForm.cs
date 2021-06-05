@@ -21,9 +21,8 @@ namespace HomeKitchenAssistant
         internal string currentUserName;
 
         private int userId;
-
+        private bool isUserBelongToFamily;
         private List<string> currentUserProducts;
-        //internal bool isUserExists;
 
         public MainForm()
         {
@@ -137,6 +136,22 @@ namespace HomeKitchenAssistant
             recipesListBox.Items.AddRange(userRecipes.ToArray());
         }
 
+        private void UpdateFamilyPage()
+        {
+            // Is user belong to family
+            string sqlExpression = $"SELECT * FROM UsersBelongToFamilies " +
+                                   $"WHERE UserId = {userId}";
+            SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+            try
+            {
+                isUserBelongToFamily = sqlCommand.ExecuteScalar() != null;
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+        }
+
         // Full update information in tabPages in tabControl
         internal void UpdateTabControl()
         {
@@ -156,6 +171,7 @@ namespace HomeKitchenAssistant
             tabControl1.Enabled = true;
             UpdateProductPage();
             UpdateRecipePage();
+            UpdateFamilyPage();
         }
 
         private void MainForm_Load(object sender, EventArgs e)

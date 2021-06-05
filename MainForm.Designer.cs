@@ -44,6 +44,7 @@ namespace HomeKitchenAssistant
             this.productsListBox = new System.Windows.Forms.ListBox();
             this.productListLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.productsInRecipeLabel = new System.Windows.Forms.Label();
             this.cookButton = new System.Windows.Forms.Button();
             this.productsInRecipeListBox = new System.Windows.Forms.ListBox();
             this.recipeDescriptionLabel = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@ namespace HomeKitchenAssistant
             this.recipeListLabel = new System.Windows.Forms.Label();
             this.recipesListBox = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.productsInRecipeLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) (this.amountNumericUpDown)).BeginInit();
@@ -210,12 +210,20 @@ namespace HomeKitchenAssistant
             this.tabPage2.Text = "Рецепты";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // productsInRecipeLabel
+            // 
+            this.productsInRecipeLabel.Location = new System.Drawing.Point(6, 168);
+            this.productsInRecipeLabel.Name = "productsInRecipeLabel";
+            this.productsInRecipeLabel.Size = new System.Drawing.Size(131, 13);
+            this.productsInRecipeLabel.TabIndex = 6;
+            this.productsInRecipeLabel.Text = "Список ингридиентов:";
+            // 
             // cookButton
             // 
             this.cookButton.Enabled = false;
-            this.cookButton.Location = new System.Drawing.Point(450, 258);
+            this.cookButton.Location = new System.Drawing.Point(454, 260);
             this.cookButton.Name = "cookButton";
-            this.cookButton.Size = new System.Drawing.Size(157, 51);
+            this.cookButton.Size = new System.Drawing.Size(151, 42);
             this.cookButton.TabIndex = 5;
             this.cookButton.Text = "Приготовить";
             this.cookButton.UseVisualStyleBackColor = true;
@@ -275,14 +283,6 @@ namespace HomeKitchenAssistant
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Семья";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // productsInRecipeLabel
-            // 
-            this.productsInRecipeLabel.Location = new System.Drawing.Point(6, 168);
-            this.productsInRecipeLabel.Name = "productsInRecipeLabel";
-            this.productsInRecipeLabel.Size = new System.Drawing.Size(131, 13);
-            this.productsInRecipeLabel.TabIndex = 6;
-            this.productsInRecipeLabel.Text = "Список ингридиентов:";
             // 
             // MainForm
             // 
