@@ -86,7 +86,22 @@ namespace HomeKitchenAssistant
         // Update information in Recipe page
         private void UpdateRecipePage()
         {
-            //string sqlExpression = $""
+            string sqlExpression = $"SELECT RecipeName FROM Recipes " +
+                                   $"WHERE " +
+                                   $"( " +
+                                   $"SELECT COUNT(*) FROM RecipesIncludeProducts " +
+                                   $"WHERE Recipes.RecipeId = RecipeId " +
+                                   $") " +
+                                   $"= " +
+                                   $"( " +
+                                   $"SELECT COUNT(*) FROM RecipesIncludeProducts " +
+                                   $"WHERE Amount <= " +
+                                   $"( " +
+                                   $"SELECT Amount FROM UsersHaveProducts " +
+                                   $"WHERE ProductId = RecipesIncludeProducts.ProductId AND UserId = {userId} " +
+                                   $") " +
+                                   $") ";
+            
         }
 
         // Full update information in tabPages in tabControl
@@ -169,10 +184,13 @@ namespace HomeKitchenAssistant
 
         private void productsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string productName = productsListBox.SelectedItem.ToString();
+            if (productsListBox.SelectedItem != null)
+            {
+                string productName = productsListBox.SelectedItem.ToString();
             
-            // Gey only name without amount
-            productNameTextBox.Text = productName.Substring(0, productName.IndexOf('-') - 1);
+                // Gey only name without amount
+                productNameTextBox.Text = productName.Substring(0, productName.IndexOf('-') - 1);
+            }
         }
 
         private void addProductButton_Click(object sender, EventArgs e)
