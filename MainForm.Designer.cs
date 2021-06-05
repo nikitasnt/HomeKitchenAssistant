@@ -44,9 +44,12 @@ namespace HomeKitchenAssistant
             this.productsListBox = new System.Windows.Forms.ListBox();
             this.productListLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.recipeDescriptionLabel = new System.Windows.Forms.Label();
+            this.recipeDescriptionTextBox = new System.Windows.Forms.TextBox();
             this.recipeListLabel = new System.Windows.Forms.Label();
             this.recipesListBox = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.productsInRecipeListBox = new System.Windows.Forms.ListBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) (this.amountNumericUpDown)).BeginInit();
@@ -55,7 +58,7 @@ namespace HomeKitchenAssistant
             // 
             // loginChoiseButton
             // 
-            this.loginChoiseButton.Location = new System.Drawing.Point(609, 372);
+            this.loginChoiseButton.Location = new System.Drawing.Point(609, 369);
             this.loginChoiseButton.Name = "loginChoiseButton";
             this.loginChoiseButton.Size = new System.Drawing.Size(113, 30);
             this.loginChoiseButton.TabIndex = 0;
@@ -190,6 +193,9 @@ namespace HomeKitchenAssistant
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.productsInRecipeListBox);
+            this.tabPage2.Controls.Add(this.recipeDescriptionLabel);
+            this.tabPage2.Controls.Add(this.recipeDescriptionTextBox);
             this.tabPage2.Controls.Add(this.recipeListLabel);
             this.tabPage2.Controls.Add(this.recipesListBox);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -200,9 +206,27 @@ namespace HomeKitchenAssistant
             this.tabPage2.Text = "Рецепты";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // recipeDescriptionLabel
+            // 
+            this.recipeDescriptionLabel.Location = new System.Drawing.Point(343, 3);
+            this.recipeDescriptionLabel.Name = "recipeDescriptionLabel";
+            this.recipeDescriptionLabel.Size = new System.Drawing.Size(182, 13);
+            this.recipeDescriptionLabel.TabIndex = 3;
+            this.recipeDescriptionLabel.Text = "Инструкция по приготовлению:";
+            // 
+            // recipeDescriptionTextBox
+            // 
+            this.recipeDescriptionTextBox.Location = new System.Drawing.Point(343, 19);
+            this.recipeDescriptionTextBox.Multiline = true;
+            this.recipeDescriptionTextBox.Name = "recipeDescriptionTextBox";
+            this.recipeDescriptionTextBox.ReadOnly = true;
+            this.recipeDescriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.recipeDescriptionTextBox.Size = new System.Drawing.Size(377, 150);
+            this.recipeDescriptionTextBox.TabIndex = 2;
+            // 
             // recipeListLabel
             // 
-            this.recipeListLabel.Location = new System.Drawing.Point(6, 3);
+            this.recipeListLabel.Location = new System.Drawing.Point(8, 3);
             this.recipeListLabel.Name = "recipeListLabel";
             this.recipeListLabel.Size = new System.Drawing.Size(155, 13);
             this.recipeListLabel.TabIndex = 1;
@@ -211,11 +235,12 @@ namespace HomeKitchenAssistant
             // recipesListBox
             // 
             this.recipesListBox.FormattingEnabled = true;
-            this.recipesListBox.Location = new System.Drawing.Point(6, 18);
+            this.recipesListBox.Location = new System.Drawing.Point(6, 19);
             this.recipesListBox.Name = "recipesListBox";
-            this.recipesListBox.Size = new System.Drawing.Size(418, 316);
+            this.recipesListBox.Size = new System.Drawing.Size(331, 316);
             this.recipesListBox.Sorted = true;
             this.recipesListBox.TabIndex = 0;
+            this.recipesListBox.SelectedIndexChanged += new System.EventHandler(this.recipesListBox_SelectedIndexChanged);
             // 
             // tabPage3
             // 
@@ -225,6 +250,16 @@ namespace HomeKitchenAssistant
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Семья";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // productsInRecipeListBox
+            // 
+            this.productsInRecipeListBox.FormattingEnabled = true;
+            this.productsInRecipeListBox.Location = new System.Drawing.Point(469, 175);
+            this.productsInRecipeListBox.Name = "productsInRecipeListBox";
+            this.productsInRecipeListBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.productsInRecipeListBox.Size = new System.Drawing.Size(251, 160);
+            this.productsInRecipeListBox.Sorted = true;
+            this.productsInRecipeListBox.TabIndex = 4;
             // 
             // MainForm
             // 
@@ -247,9 +282,17 @@ namespace HomeKitchenAssistant
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize) (this.amountNumericUpDown)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.ListBox productsInRecipeListBox;
+
+        private System.Windows.Forms.TextBox recipeDescriptionTextBox;
+        private System.Windows.Forms.Label recipeDescriptionLabel;
+
+        // private System.Windows.Forms.TextBox textBox1;
 
         private System.Windows.Forms.ListBox recipesListBox;
         private System.Windows.Forms.Label recipeListLabel;

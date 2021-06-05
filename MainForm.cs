@@ -296,5 +296,66 @@ namespace HomeKitchenAssistant
                 MessageBox.Show("У вас нет такого продукта");
             }
         }
+
+        private void recipesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (recipesListBox.SelectedItem != null)
+            {
+                // Show description
+                string sqlExpressionForDescription = $"SELECT RecipeDescription FROM Recipes " +
+                                                     $"WHERE RecipeName = " +
+                                                     $"'{Convert.ToString(recipesListBox.SelectedItem)}'";
+                SqlCommand sqlCommandForDescription = new SqlCommand(sqlExpressionForDescription, sqlConnection);
+                try
+                {
+                    recipeDescriptionTextBox.Text = Convert.ToString(sqlCommandForDescription.ExecuteScalar());
+                }
+                catch (SqlException sqlException)
+                {
+                    Console.WriteLine(sqlException);
+                }
+                
+                // Show products in recipe
+                productsInRecipeListBox.Items.Clear();
+                    
+                var recipeProducts = new List<string>();
+                
+                string sqlExpressionForProducts =
+                    $"SELECT Products.ProductName, RecipesIncludeProducts.Amount, Units.UnitName " +
+                    $"FROM Products, RecipesIncludeProducts, Units " +
+                    $"WHERE RecipesIncludeProducts.ProductId = Products.ProductId " +
+                    $"AND Products.UnitId = Units.UnitId " +
+                    $"AND RecipeId = " +
+                    $"(SELECT RecipeId FROM Recipes WHERE RecipeName = '{recipesListBox.SelectedItem}')";
+                SqlCommand sqlCommand = new SqlCommand(sqlExpressionForProducts, sqlConnection);
+                SqlDataReader reader = null;
+                try
+                {
+                    reader = sqlCommand.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            currentUserProducts.Add(reader.GetString(0));
+                            recipeProducts.Add($"{reader.GetString(0)} - " +
+                                               $"{Convert.ToString(reader.GetInt32(1))} {reader.GetString(2)};");
+                        }
+                    }
+                }
+                catch (SqlException sqlException)
+                {
+                    Console.WriteLine(sqlException);
+                }
+                finally
+                {
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+                }
+                productsInRecipeListBox.Items.AddRange(recipeProducts.ToArray());
+            }
+        }
     }
 }
