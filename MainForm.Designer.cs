@@ -52,10 +52,18 @@ namespace HomeKitchenAssistant
             this.recipeListLabel = new System.Windows.Forms.Label();
             this.recipesListBox = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.leaveFromFamilyButton = new System.Windows.Forms.Button();
+            this.addUserButton = new System.Windows.Forms.Button();
+            this.addUserTextBox = new System.Windows.Forms.TextBox();
+            this.addUserLabel = new System.Windows.Forms.Label();
+            this.createFamilyButton = new System.Windows.Forms.Button();
+            this.usersInFamilyListBox = new System.Windows.Forms.ListBox();
+            this.usersInFamilyLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) (this.amountNumericUpDown)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // loginChoiseButton
@@ -259,7 +267,7 @@ namespace HomeKitchenAssistant
             // 
             // recipeListLabel
             // 
-            this.recipeListLabel.Location = new System.Drawing.Point(8, 3);
+            this.recipeListLabel.Location = new System.Drawing.Point(6, 3);
             this.recipeListLabel.Name = "recipeListLabel";
             this.recipeListLabel.Size = new System.Drawing.Size(155, 13);
             this.recipeListLabel.TabIndex = 1;
@@ -277,12 +285,85 @@ namespace HomeKitchenAssistant
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.leaveFromFamilyButton);
+            this.tabPage3.Controls.Add(this.addUserButton);
+            this.tabPage3.Controls.Add(this.addUserTextBox);
+            this.tabPage3.Controls.Add(this.addUserLabel);
+            this.tabPage3.Controls.Add(this.createFamilyButton);
+            this.tabPage3.Controls.Add(this.usersInFamilyListBox);
+            this.tabPage3.Controls.Add(this.usersInFamilyLabel);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(726, 337);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Семья";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // leaveFromFamilyButton
+            // 
+            this.leaveFromFamilyButton.Enabled = false;
+            this.leaveFromFamilyButton.Location = new System.Drawing.Point(610, 267);
+            this.leaveFromFamilyButton.Name = "leaveFromFamilyButton";
+            this.leaveFromFamilyButton.Size = new System.Drawing.Size(108, 32);
+            this.leaveFromFamilyButton.TabIndex = 6;
+            this.leaveFromFamilyButton.Text = "Выйти из семьи";
+            this.leaveFromFamilyButton.UseVisualStyleBackColor = true;
+            this.leaveFromFamilyButton.Click += new System.EventHandler(this.leaveFromFamilyButton_Click);
+            // 
+            // addUserButton
+            // 
+            this.addUserButton.Enabled = false;
+            this.addUserButton.Location = new System.Drawing.Point(630, 213);
+            this.addUserButton.Name = "addUserButton";
+            this.addUserButton.Size = new System.Drawing.Size(88, 23);
+            this.addUserButton.TabIndex = 5;
+            this.addUserButton.Text = "Добавить";
+            this.addUserButton.UseVisualStyleBackColor = true;
+            this.addUserButton.Click += new System.EventHandler(this.addUserButton_Click);
+            // 
+            // addUserTextBox
+            // 
+            this.addUserTextBox.Enabled = false;
+            this.addUserTextBox.Location = new System.Drawing.Point(393, 215);
+            this.addUserTextBox.Name = "addUserTextBox";
+            this.addUserTextBox.Size = new System.Drawing.Size(231, 20);
+            this.addUserTextBox.TabIndex = 4;
+            // 
+            // addUserLabel
+            // 
+            this.addUserLabel.Location = new System.Drawing.Point(393, 199);
+            this.addUserLabel.Name = "addUserLabel";
+            this.addUserLabel.Size = new System.Drawing.Size(131, 13);
+            this.addUserLabel.TabIndex = 3;
+            this.addUserLabel.Text = "Логин пользователя:";
+            // 
+            // createFamilyButton
+            // 
+            this.createFamilyButton.Location = new System.Drawing.Point(490, 82);
+            this.createFamilyButton.Name = "createFamilyButton";
+            this.createFamilyButton.Size = new System.Drawing.Size(143, 44);
+            this.createFamilyButton.TabIndex = 2;
+            this.createFamilyButton.Text = "Создать семью";
+            this.createFamilyButton.UseVisualStyleBackColor = true;
+            this.createFamilyButton.Click += new System.EventHandler(this.createFamilyButton_Click);
+            // 
+            // usersInFamilyListBox
+            // 
+            this.usersInFamilyListBox.FormattingEnabled = true;
+            this.usersInFamilyListBox.Location = new System.Drawing.Point(6, 19);
+            this.usersInFamilyListBox.Name = "usersInFamilyListBox";
+            this.usersInFamilyListBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.usersInFamilyListBox.Size = new System.Drawing.Size(381, 316);
+            this.usersInFamilyListBox.Sorted = true;
+            this.usersInFamilyListBox.TabIndex = 1;
+            // 
+            // usersInFamilyLabel
+            // 
+            this.usersInFamilyLabel.Location = new System.Drawing.Point(6, 3);
+            this.usersInFamilyLabel.Name = "usersInFamilyLabel";
+            this.usersInFamilyLabel.Size = new System.Drawing.Size(256, 13);
+            this.usersInFamilyLabel.TabIndex = 0;
+            this.usersInFamilyLabel.Text = "Список пользователей, входящих в семью:";
             // 
             // MainForm
             // 
@@ -306,9 +387,25 @@ namespace HomeKitchenAssistant
             ((System.ComponentModel.ISupportInitialize) (this.amountNumericUpDown)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.Button leaveFromFamilyButton;
+
+        private System.Windows.Forms.Button button1;
+
+        private System.Windows.Forms.Button createFamilyButton;
+        private System.Windows.Forms.Label addUserLabel;
+        private System.Windows.Forms.TextBox addUserTextBox;
+        private System.Windows.Forms.Button addUserButton;
+
+        private System.Windows.Forms.ListBox usersInFamilyListBox;
+
+        private System.Windows.Forms.Label usersInFamilyLabel;
+        private System.Windows.Forms.ListBox listBox1;
 
         private System.Windows.Forms.Label productsInRecipeLabel;
 

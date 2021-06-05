@@ -22,6 +22,7 @@ namespace HomeKitchenAssistant
 
         private int userId;
         private bool isUserBelongToFamily;
+        private int familyId;
         private List<string> currentUserProducts;
 
         public MainForm()
@@ -139,16 +140,69 @@ namespace HomeKitchenAssistant
         private void UpdateFamilyPage()
         {
             // Is user belong to family
-            string sqlExpression = $"SELECT * FROM UsersBelongToFamilies " +
+            string sqlExpression = $"SELECT FamilyId FROM UsersBelongToFamilies " +
                                    $"WHERE UserId = {userId}";
             SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
             try
             {
-                isUserBelongToFamily = sqlCommand.ExecuteScalar() != null;
+                familyId = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                isUserBelongToFamily = Convert.ToBoolean(familyId);
             }
             catch (SqlException sqlException)
             {
                 Console.WriteLine(sqlException);
+            }
+            
+            // Family list
+            usersInFamilyListBox.Items.Clear();
+            
+            if (isUserBelongToFamily)
+            {
+                string sqlExpressionList = $"SELECT UserLogin, UserName FROM Users " +
+                                                 $"WHERE UserId IN " +
+                                                 $"(SELECT UserId FROM UsersBelongToFamilies " +
+                                                 $"WHERE FamilyId = {familyId})";
+                SqlCommand sqlCommandList = new SqlCommand(sqlExpressionList, sqlConnection);
+                SqlDataReader reader = null;
+                try
+                {
+                    reader = sqlCommandList.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            usersInFamilyListBox.Items.Add($"{reader.GetString(0)} ({reader.GetString(1)})");
+                        }
+                    }
+                }
+                catch (SqlException sqlException)
+                {
+                    Console.WriteLine(sqlException);
+                }
+                finally
+                {
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+                }
+                
+                // Enable other textBox and buttons
+                addUserTextBox.Enabled = true;
+                addUserButton.Enabled = true;
+                leaveFromFamilyButton.Enabled = true;
+                createFamilyButton.Enabled = false;
+            }
+            else
+            {
+                usersInFamilyListBox.Items.Add("Вы не состоите в семье");
+                
+                // Disable other textBox and buttons
+                addUserTextBox.Enabled = false;
+                addUserButton.Enabled = false;
+                leaveFromFamilyButton.Enabled = false;
+                createFamilyButton.Enabled = true;
             }
         }
 
@@ -393,6 +447,75 @@ namespace HomeKitchenAssistant
                                    $"WHERE RecipeName = '{recipesListBox.SelectedItem}') " +
                                    $"AND RecipesIncludeProducts.ProductId = UsersHaveProducts.ProductId " +
                                    $") " +
+                                   $"WHERE UserId = {userId}";
+            SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+            UpdateTabControl();
+        }
+
+        private void createFamilyButton_Click(object sender, EventArgs e)
+        {
+            // Create family and get ID
+            string sqlExpressionCreate = $"INSERT INTO Families DEFAULT VALUES " +
+                                         $"SELECT SCOPE_IDENTITY()";
+            SqlCommand sqlCommandCreate = new SqlCommand(sqlExpressionCreate, sqlConnection);
+            try
+            {
+                familyId = Convert.ToInt32(sqlCommandCreate.ExecuteScalar());
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+            
+            // Add current user to created family
+            string sqlExpressionAdd = $"INSERT INTO UsersBelongToFamilies(UserId, FamilyId) " +
+                                      $"VALUES ({userId}, {familyId})";
+            SqlCommand sqlCommandAdd = new SqlCommand(sqlExpressionAdd, sqlConnection);
+            try
+            {
+                sqlCommandAdd.ExecuteNonQuery();
+                
+                isUserBelongToFamily = true;
+            
+                UpdateFamilyPage();
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+            }
+        }
+
+        private void addUserButton_Click(object sender, EventArgs e)
+        {
+            string sqlExpression = $"INSERT INTO UsersBelongToFamilies(UserId, FamilyId) " +
+                                   $"VALUES " +
+                                   $"((SELECT UserId FROM Users " +
+                                   $"WHERE UserLogin = '{addUserTextBox.Text}'), " +
+                                   $"{familyId})";
+            SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (SqlException sqlException)
+            {
+                Console.WriteLine(sqlException);
+                MessageBox.Show("Пользователь с таким логином не найден или уже состоит в семье");
+            }
+            UpdateFamilyPage();
+        }
+
+        private void leaveFromFamilyButton_Click(object sender, EventArgs e)
+        {
+            string sqlExpression = $"DELETE UsersBelongToFamilies " +
                                    $"WHERE UserId = {userId}";
             SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
             try
