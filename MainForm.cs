@@ -24,32 +24,47 @@ namespace HomeKitchenAssistant
         private bool isUserBelongToFamily;
         private int familyId;
         private List<string> currentUserProducts;
+        private List<string> currentFamilyProducts;
 
         public MainForm()
         {
             InitializeComponent();
             currentUserProducts = new List<string>();
+            currentFamilyProducts = new List<string>();
         }
 
         // Update information in Product page
         private void UpdateProductPage()
         {
-            currentUserProducts.Clear();
+            if (!isUserBelongToFamily)
+            {
+                currentUserProducts.Clear();
+            }
+            else
+            {
+                currentFamilyProducts.Clear();
+            }
             productsListBox.Items.Clear();
 
             var userProducts = new List<string>();
 
-            // string sqlExpression = $"SELECT ProductName FROM Products " +
-            //                        $"WHERE ProductId IN " +
-            //                        $"(" +
-            //                        $"SELECT ProductId FROM UsersHaveProducts " +
-            //                        $"WHERE UserId = {userId}" +
-            //                        $")";
-            string sqlExpression = $"SELECT Products.ProductName, UsersHaveProducts.Amount, Units.UnitName " +
-                                   $"FROM Products, UsersHaveProducts, Units " +
-                                   $"WHERE UsersHaveProducts.ProductId = Products.ProductId " +
-                                   $"AND Products.UnitId = Units.UnitId " +
-                                   $"AND UserId = {userId}";
+            string sqlExpression;
+            if (!isUserBelongToFamily)
+            {
+                sqlExpression = $"SELECT Products.ProductName, UsersHaveProducts.Amount, Units.UnitName " +
+                                $"FROM Products, UsersHaveProducts, Units " +
+                                $"WHERE UsersHaveProducts.ProductId = Products.ProductId " +
+                                $"AND Products.UnitId = Units.UnitId " +
+                                $"AND UserId = {userId}";
+            }
+            else
+            {
+                sqlExpression = $"SELECT Products.ProductName, FamiliesHaveProducts.Amount, Units.UnitName " +
+                                $"FROM Products, FamiliesHaveProducts, Units " +
+                                $"WHERE FamiliesHaveProducts.ProductId = Products.ProductId " +
+                                $"AND Products.UnitId = Units.UnitId " +
+                                $"AND FamilyId = {familyId}";
+            }
             SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
 
             SqlDataReader reader = null;
@@ -61,7 +76,14 @@ namespace HomeKitchenAssistant
                 {
                     while (reader.Read())
                     {
-                        currentUserProducts.Add(reader.GetString(0));
+                        if (!isUserBelongToFamily)
+                        {
+                            currentUserProducts.Add(reader.GetString(0));
+                        }
+                        else
+                        {
+                            currentFamilyProducts.Add(reader.GetString(0));
+                        }
                         userProducts.Add($"{reader.GetString(0)} - " +
                                          $"{Convert.ToString(reader.GetInt32(1))} {reader.GetString(2)};");
                     }
@@ -91,23 +113,45 @@ namespace HomeKitchenAssistant
             recipeDescriptionTextBox.Clear();
             productsInRecipeListBox.Items.Clear();
 
-            var userRecipes = new List<string>();
-            
-            string sqlExpression = $"SELECT RecipeName FROM Recipes " +
-                                   $"WHERE " +
-                                   $"( " +
-                                   $"SELECT COUNT(*) FROM RecipesIncludeProducts " +
-                                   $"WHERE Recipes.RecipeId = RecipeId " +
-                                   $") " +
-                                   $"= " +
-                                   $"( " +
-                                   $"SELECT COUNT(*) FROM RecipesIncludeProducts " +
-                                   $"WHERE Amount <= " +
-                                   $"( " +
-                                   $"SELECT Amount FROM UsersHaveProducts " +
-                                   $"WHERE ProductId = RecipesIncludeProducts.ProductId AND UserId = {userId} " +
-                                   $") " +
-                                   $") ";
+            var userFamilyRecipes = new List<string>();
+
+            string sqlExpression;
+            if (!isUserBelongToFamily)
+            {
+                sqlExpression = $"SELECT RecipeName FROM Recipes " +
+                                $"WHERE " +
+                                $"( " +
+                                $"SELECT COUNT(*) FROM RecipesIncludeProducts " +
+                                $"WHERE Recipes.RecipeId = RecipeId " +
+                                $") " +
+                                $"= " +
+                                $"( " +
+                                $"SELECT COUNT(*) FROM RecipesIncludeProducts " +
+                                $"WHERE Amount <= " +
+                                $"( " +
+                                $"SELECT Amount FROM UsersHaveProducts " +
+                                $"WHERE ProductId = RecipesIncludeProducts.ProductId AND UserId = {userId} " +
+                                $") " +
+                                $") ";
+            }
+            else
+            {
+                sqlExpression = $"SELECT RecipeName FROM Recipes " +
+                                $"WHERE " +
+                                $"( " +
+                                $"SELECT COUNT(*) FROM RecipesIncludeProducts " +
+                                $"WHERE Recipes.RecipeId = RecipeId " +
+                                $") " +
+                                $"= " +
+                                $"( " +
+                                $"SELECT COUNT(*) FROM RecipesIncludeProducts " +
+                                $"WHERE Amount <= " +
+                                $"( " +
+                                $"SELECT Amount FROM FamiliesHaveProducts " +
+                                $"WHERE ProductId = RecipesIncludeProducts.ProductId AND FamilyId = {familyId} " +
+                                $") " +
+                                $")";
+            }
             SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
             SqlDataReader reader = null;
             try
@@ -118,7 +162,7 @@ namespace HomeKitchenAssistant
                 {
                     while (reader.Read())
                     {
-                        userRecipes.Add(reader.GetString(0));
+                        userFamilyRecipes.Add(reader.GetString(0));
                     }
                 }
             }
@@ -134,7 +178,7 @@ namespace HomeKitchenAssistant
                 }
             }
 
-            recipesListBox.Items.AddRange(userRecipes.ToArray());
+            recipesListBox.Items.AddRange(userFamilyRecipes.ToArray());
         }
 
         private void UpdateFamilyPage()
@@ -159,9 +203,9 @@ namespace HomeKitchenAssistant
             if (isUserBelongToFamily)
             {
                 string sqlExpressionList = $"SELECT UserLogin, UserName FROM Users " +
-                                                 $"WHERE UserId IN " +
-                                                 $"(SELECT UserId FROM UsersBelongToFamilies " +
-                                                 $"WHERE FamilyId = {familyId})";
+                                           $"WHERE UserId IN " +
+                                           $"(SELECT UserId FROM UsersBelongToFamilies " +
+                                           $"WHERE FamilyId = {familyId})";
                 SqlCommand sqlCommandList = new SqlCommand(sqlExpressionList, sqlConnection);
                 SqlDataReader reader = null;
                 try
@@ -223,9 +267,9 @@ namespace HomeKitchenAssistant
             
             // Update all pages
             tabControl1.Enabled = true;
+            UpdateFamilyPage();
             UpdateProductPage();
             UpdateRecipePage();
-            UpdateFamilyPage();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -301,45 +345,91 @@ namespace HomeKitchenAssistant
         {
             string addedProductName = productNameTextBox.Text;
             
-            // If user have added product
-            if (currentUserProducts.Contains(addedProductName))
+            if (!isUserBelongToFamily)
             {
-                string sqlExpression = $"UPDATE UsersHaveProducts " +
-                                       $"SET Amount = Amount + {Convert.ToInt32(amountNumericUpDown.Text)} " +
-                                       $"WHERE UserId = {userId} AND " +
-                                       $"ProductId = (SELECT ProductId FROM Products " +
-                                       $"WHERE ProductName = '{addedProductName}')";
-                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
-                try
+                // If user have added product
+                if (currentUserProducts.Contains(addedProductName))
                 {
-                    sqlCommand.ExecuteNonQuery();
-                }
-                catch (SqlException sqlException)
-                {
-                    Console.WriteLine(sqlException);
-                }
+                    string sqlExpression = $"UPDATE UsersHaveProducts " +
+                                           $"SET Amount = Amount + {Convert.ToInt32(amountNumericUpDown.Text)} " +
+                                           $"WHERE UserId = {userId} AND " +
+                                           $"ProductId = (SELECT ProductId FROM Products " +
+                                           $"WHERE ProductName = '{addedProductName}')";
+                    SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                    try
+                    {
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                    catch (SqlException sqlException)
+                    {
+                        Console.WriteLine(sqlException);
+                    }
 
-                UpdateTabControl();
+                    UpdateTabControl();
+                }
+                else
+                {
+                    string sqlExpression = $"INSERT INTO UsersHaveProducts(UserId, ProductId, Amount) VALUES " +
+                                           $"({userId}, " +
+                                           $"(SELECT ProductId FROM Products " +
+                                           $"WHERE ProductName = '{addedProductName}'), " +
+                                           $"{Convert.ToInt32(amountNumericUpDown.Text)})";
+                    SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                    try
+                    {
+                        Console.WriteLine(sqlCommand.ExecuteNonQuery());
+                    }
+                    catch (SqlException sqlException)
+                    {
+                        Console.WriteLine(sqlException);
+                        MessageBox.Show("Несуществующее название продукта");
+                    }
+
+                    UpdateTabControl();
+                }
             }
             else
             {
-                string sqlExpression = $"INSERT INTO UsersHaveProducts(UserId, ProductId, Amount) VALUES " +
-                                       $"({userId}, " +
-                                       $"(SELECT ProductId FROM Products " +
-                                       $"WHERE ProductName = '{addedProductName}'), " +
-                                       $"{Convert.ToInt32(amountNumericUpDown.Text)})";
-                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
-                try
+                // If family have added product
+                if (currentFamilyProducts.Contains(addedProductName))
                 {
-                    Console.WriteLine(sqlCommand.ExecuteNonQuery());
-                }
-                catch (SqlException sqlException)
-                {
-                    Console.WriteLine(sqlException);
-                    MessageBox.Show("Несуществующее название продукта");
-                }
+                    string sqlExpression = $"UPDATE FamiliesHaveProducts " +
+                                           $"SET Amount = Amount + {Convert.ToInt32(amountNumericUpDown.Text)} " +
+                                           $"WHERE FamilyId = {familyId} AND " +
+                                           $"ProductId = (SELECT ProductId FROM Products " +
+                                           $"WHERE ProductName = '{addedProductName}')";
+                    SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                    try
+                    {
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                    catch (SqlException sqlException)
+                    {
+                        Console.WriteLine(sqlException);
+                    }
 
-                UpdateTabControl();
+                    UpdateTabControl();
+                }
+                else
+                {
+                    string sqlExpression = $"INSERT INTO FamiliesHaveProducts(FamilyId, ProductId, Amount) VALUES " +
+                                           $"({familyId}, " +
+                                           $"(SELECT ProductId FROM Products " +
+                                           $"WHERE ProductName = '{addedProductName}'), " +
+                                           $"{Convert.ToInt32(amountNumericUpDown.Text)})";
+                    SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                    try
+                    {
+                        Console.WriteLine(sqlCommand.ExecuteNonQuery());
+                    }
+                    catch (SqlException sqlException)
+                    {
+                        Console.WriteLine(sqlException);
+                        MessageBox.Show("Несуществующее название продукта");
+                    }
+
+                    UpdateTabControl();
+                }
             }
         }
 
@@ -347,28 +437,59 @@ namespace HomeKitchenAssistant
         {
             string deletedProductName = productNameTextBox.Text;
 
-            // If user have deleted product
-            if (currentUserProducts.Contains(deletedProductName))
+            if (!isUserBelongToFamily)
             {
-                string sqlExpression = $"UPDATE UsersHaveProducts " +
-                                       $"SET Amount = Amount - {Convert.ToInt32(amountNumericUpDown.Text)} " +
-                                       $"WHERE UserId = {userId} AND " +
-                                       $"ProductId = (SELECT ProductId FROM Products " +
-                                       $"WHERE ProductName = '{deletedProductName}')";
-                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
-                try
+                // If user have deleted product
+                if (currentUserProducts.Contains(deletedProductName))
                 {
-                    sqlCommand.ExecuteNonQuery();
+                    string sqlExpression = $"UPDATE UsersHaveProducts " +
+                                           $"SET Amount = Amount - {Convert.ToInt32(amountNumericUpDown.Text)} " +
+                                           $"WHERE UserId = {userId} AND " +
+                                           $"ProductId = (SELECT ProductId FROM Products " +
+                                           $"WHERE ProductName = '{deletedProductName}')";
+                    SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                    try
+                    {
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                    catch (SqlException sqlException)
+                    {
+                        Console.WriteLine(sqlException);
+                    }
+
+                    UpdateTabControl();
                 }
-                catch (SqlException sqlException)
+                else
                 {
-                    Console.WriteLine(sqlException);
+                    MessageBox.Show("У вас нет такого продукта");
                 }
-                UpdateProductPage();
             }
             else
             {
-                MessageBox.Show("У вас нет такого продукта");
+                // If family have deleted product
+                if (currentFamilyProducts.Contains(deletedProductName))
+                {
+                    string sqlExpression = $"UPDATE FamiliesHaveProducts " +
+                                           $"SET Amount = Amount - {Convert.ToInt32(amountNumericUpDown.Text)} " +
+                                           $"WHERE FamilyId = {familyId} AND " +
+                                           $"ProductId = (SELECT ProductId FROM Products " +
+                                           $"WHERE ProductName = '{deletedProductName}')";
+                    SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                    try
+                    {
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                    catch (SqlException sqlException)
+                    {
+                        Console.WriteLine(sqlException);
+                    }
+
+                    UpdateTabControl();
+                }
+                else
+                {
+                    MessageBox.Show("У вас нет такого продукта");
+                }
             }
         }
 
@@ -412,7 +533,7 @@ namespace HomeKitchenAssistant
                     {
                         while (reader.Read())
                         {
-                            currentUserProducts.Add(reader.GetString(0));
+                            //currentUserProducts.Add(reader.GetString(0));
                             recipeProducts.Add($"{reader.GetString(0)} - " +
                                                $"{Convert.ToString(reader.GetInt32(1))} {reader.GetString(2)};");
                         }
@@ -438,16 +559,33 @@ namespace HomeKitchenAssistant
 
         private void cookButton_Click(object sender, EventArgs e)
         {
-            string sqlExpression = $"UPDATE UsersHaveProducts " +
-                                   $"SET Amount = Amount - " +
-                                   $"( " +
-                                   $"SELECT Amount FROM RecipesIncludeProducts " +
-                                   $"WHERE RecipeId = " +
-                                   $"(SELECT RecipeId FROM Recipes " +
-                                   $"WHERE RecipeName = '{recipesListBox.SelectedItem}') " +
-                                   $"AND RecipesIncludeProducts.ProductId = UsersHaveProducts.ProductId " +
-                                   $") " +
-                                   $"WHERE UserId = {userId}";
+            string sqlExpression;
+            if (!isUserBelongToFamily)
+            {
+                sqlExpression = $"UPDATE UsersHaveProducts " +
+                                $"SET Amount = Amount - " +
+                                $"( " +
+                                $"SELECT Amount FROM RecipesIncludeProducts " +
+                                $"WHERE RecipeId = " +
+                                $"(SELECT RecipeId FROM Recipes " +
+                                $"WHERE RecipeName = '{recipesListBox.SelectedItem}') " +
+                                $"AND RecipesIncludeProducts.ProductId = UsersHaveProducts.ProductId " +
+                                $") " +
+                                $"WHERE UserId = {userId}";
+            }
+            else
+            {
+                sqlExpression = $"UPDATE FamiliesHaveProducts " +
+                                $"SET Amount = Amount - " +
+                                $"( " +
+                                $"SELECT Amount FROM RecipesIncludeProducts " +
+                                $"WHERE RecipeId = " +
+                                $"(SELECT RecipeId FROM Recipes " +
+                                $"WHERE RecipeName = '{recipesListBox.SelectedItem}') " +
+                                $"AND RecipesIncludeProducts.ProductId = FamiliesHaveProducts.ProductId " +
+                                $") " +
+                                $"WHERE FamilyId = {familyId}";
+            }
             SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
             try
             {
@@ -484,8 +622,8 @@ namespace HomeKitchenAssistant
                 sqlCommandAdd.ExecuteNonQuery();
                 
                 isUserBelongToFamily = true;
-            
-                UpdateFamilyPage();
+
+                UpdateTabControl();
             }
             catch (SqlException sqlException)
             {
@@ -495,6 +633,20 @@ namespace HomeKitchenAssistant
 
         private void addUserButton_Click(object sender, EventArgs e)
         {
+            // // Is added user belong to family
+            // string sqlExpressionInFamily = $"SELECT FamilyId FROM UsersBelongToFamilies " +
+            //                                $"WHERE UserId = {userId}";
+            // SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+            // try
+            // {
+            //     familyId = Convert.ToInt32(sqlCommand.ExecuteScalar());
+            //     isUserBelongToFamily = Convert.ToBoolean(familyId);
+            // }
+            // catch (SqlException sqlException)
+            // {
+            //     Console.WriteLine(sqlException);
+            // }
+            
             string sqlExpression = $"INSERT INTO UsersBelongToFamilies(UserId, FamilyId) " +
                                    $"VALUES " +
                                    $"((SELECT UserId FROM Users " +
