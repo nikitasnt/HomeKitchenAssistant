@@ -130,6 +130,14 @@ go
 ```
 ### Filling data example
 ```sql
+insert into Units(UnitName)
+values
+('г'),
+('мл'),
+('шт.');
+
+go
+
 insert into Recipes(RecipeName, RecipeDescription)
 values
 ('Борщ с курицей',
@@ -157,7 +165,7 @@ values
 ('Морковь', 3),
 ('Чеснок', 3),
 ('Томатная паста', 1);
-*/
+
 go
  
 insert into RecipesIncludeProducts(RecipeId, ProductId, Amount)
